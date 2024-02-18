@@ -11,6 +11,12 @@ os.environ['PATH'] = new_path
 print(new_path)
 
 class Predictor(BasePredictor):
+    def setup(self) -> None:
+        response = requests.get('https://replicate.delivery/pbxt/UvKKgNj9mT7pIVHzwerhcjkp5cMH4FS5emPVghk2qyzMRwUSA/gradio_output.ply')
+        response.raise_for_status()
+        with open('/content/test.ply', 'wb') as f:
+            f.write(response.content)
+        subprocess.run(['python', 'convert.py', 'big', '--force_cuda_rast', '--test_path', '/content/test.ply'])
     def predict(
         self,
         ply_file_url: str = Input(description="URL of LGM .ply file"),
