@@ -1,7 +1,7 @@
 import os
 from cog import BasePredictor, Input, Path
 from typing import List
-import sys, shutil, subprocess
+import sys, subprocess, requests
 sys.path.append('/content/LGM')
 os.chdir('/content/LGM')
 current_path = os.environ.get('PATH', '')
@@ -13,8 +13,11 @@ print(new_path)
 class Predictor(BasePredictor):
     def predict(
         self,
-        ply_file: Path = Input(description="LGM .ply file"),
+        ply_file_url: str = Input(description="URL of LGM .ply file"),
     ) -> Path:
-        shutil.move(ply_file, '/content/test.ply')
+        response = requests.get(ply_file_url)
+        response.raise_for_status()
+        with open('/content/test.ply', 'wb') as f:
+            f.write(response.content)
         subprocess.run(['python', 'convert.py', 'big', '--force_cuda_rast', '--test_path', '/content/test.ply'])
         return Path('/content/test.glb')
