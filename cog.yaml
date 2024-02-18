@@ -6,7 +6,8 @@ build:
     - apt install -y gcc g++ aria2 git git-lfs wget libgl1 libglib2.0-0 ffmpeg cmake libgtk2.0-0 libopenmpi-dev
     - wget https://developer.download.nvidia.com/compute/cuda/12.1.0/local_installers/cuda_12.1.0_530.30.02_linux.run && sh cuda_12.1.0_530.30.02_linux.run --silent --toolkit
     - pip install torch==2.1.0+cu121 torchvision==0.16.0+cu121 torchaudio==2.1.0+cu121 torchtext==0.16.0 torchdata==0.7.0 --extra-index-url https://download.pytorch.org/whl/cu121 -U
-    - pip install notebook pyngrok pickleshare ipywidgets imageio-ffmpeg pandas numpy==1.25.2 opencv-python==4.8.0.76
+    - pip install notebook pyngrok pickleshare ipywidgets imageio-ffmpeg pandas numpy==1.25.2 opencv-python==4.8.0.76 scikit-learn==1.2.2 scipy==1.11.4 matplotlib==3.7.1
+    - sed -i 's/return caster.operator typename make_caster<T>::template cast_op_type<T>();/return caster;/' /usr/local/lib/python3.10/site-packages/torch/include/pybind11/cast.h
     - git clone --recursive -b dev https://github.com/camenduru/LGM /content/LGM
     - pip install tyro kiui PyMCubes nerfacc trimesh pymeshlab ninja plyfile xatlas pygltflib
     - pip install https://github.com/camenduru/LGM-replicate/releases/download/replicate/diff_gaussian_rasterization-0.0.0-cp310-cp310-linux_x86_64.whl
